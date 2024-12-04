@@ -15,8 +15,8 @@
               </li>
             </ul>
             <div class="ms-auto d-flex">
-              <button class="btn btn-outline me-2" type="button">Log In</button>
-              <button class="btn btn-sm btn-outline" type="button">Sign Up</button>
+              <button @click="$router.push('/signup')" class="btn btn-outline-success me-2" type="submit" >signUp</button>
+              <button type="button" class="btn btn-outline-info">SignIn</button>
             </div>
           </div>
         </div>
@@ -29,7 +29,7 @@
 
     <footer class="bg-dark text-white p-3 mt-3">
       <div class="container text-center">
-        <p class="lead"> &copy;мотя 2024</p>
+        <p class="lead">COPYRIGHT</p>
       </div>
     </footer>
   </div>
