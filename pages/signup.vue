@@ -11,8 +11,14 @@ const gender = ref(0);
 const genderStore = useGenderStore();
 const authStore = useAuthStore();
 const router = useRouter();
+const errorMessage = ref('');
 
 const register = async () => {
+  if (!fio.value || !email.value || !password.value || !birthday.value || gender.value === 0) {
+    console.log("Некоторые поля не заполнены или некорректны.");
+    return;
+  }
+
   try {
     await authStore.signup({
       fio: fio.value,
@@ -22,7 +28,9 @@ const register = async () => {
       gender_id: gender.value,
     });
     router.push('/');
-  } catch (e) {}
+  } catch (e: any) {
+    errorMessage.value = e.message;
+  }
 };
 
 </script>
@@ -66,6 +74,9 @@ const register = async () => {
           <button type="submit" class="btn btn-primary">Sign Up</button>
         </div>
       </form>
+      <div class="alert alert-danger" role="alert" v-if="errorMessage">
+        {{ errorMessage }}
+      </div>
     </div>
   </div>
 </template>
