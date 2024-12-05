@@ -25,7 +25,6 @@ export const useAuthStore = defineStore("auth", () => {
             throw new Error(e.response.data.message);
         }
     };
-
     const signout = async () => {
         try {
             // Fix the Authorization header format here
