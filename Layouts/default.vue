@@ -22,7 +22,7 @@
           <button @click="$router.push('/signin')" type="button" class="btn btn-outline-info">SignIn</button>
         </template>
         <template v-else>
-          <NuxtLink to="/" class="navbar-link">Profile</NuxtLink>
+          <NuxtLink to="/profile" class="navbar-link">Profile</NuxtLink>
           <button @click="logout" type="button" class="btn btn-outline-danger">Quit</button>
         </template>
       </div>

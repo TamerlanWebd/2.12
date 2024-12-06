@@ -1,6 +1,5 @@
 import {defineStore} from "pinia";
 import {api} from "~/api/index.js";
-
 export const useRatingStore = defineStore('rating', () => {
     const authStore = useAuthStore();
     const ratings = ref([]);
@@ -10,9 +9,6 @@ export const useRatingStore = defineStore('rating', () => {
             return ratings.value.find((item) => item.film.id === filmId);
         }
     });
-
-
-
     const addRating = async (rating) => {
         await api.post(`/users/${authStore.authData.id}/ratings`, rating, {
             headers: {
@@ -29,7 +25,6 @@ export const useRatingStore = defineStore('rating', () => {
         });
         ratings.value = res.data.ratings;
     }
-
     return{
         addRating,
         ratings,

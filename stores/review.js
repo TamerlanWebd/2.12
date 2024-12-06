@@ -1,11 +1,14 @@
 import {api} from "~/api/index.js";
 import {defineStore} from "pinia";
-
 export const  useReviewStore = defineStore('review', () => {
     const reviews = ref([]);
     const authStore = useAuthStore();
     const fetchReviewsByFilmId = async (id) => {
         const res = await api.get(`/films/${id}/reviews`);
+        reviews.value = res.data.reviews;
+    }
+    const fetchReviewsByUserId = async (id) => {
+        const res = await api.get(`/user/${id}/reviews`);
         reviews.value = res.data.reviews;
     }
     const addReview = async (review) => {
@@ -16,9 +19,9 @@ export const  useReviewStore = defineStore('review', () => {
     });
     await fetchReviewsByFilmId(review.film_id)
 }
-
 return{
     reviews,
+    fetchReviewsByUserId,
     fetchReviewsByFilmId,
     addReview,
 }

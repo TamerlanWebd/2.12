@@ -25,9 +25,9 @@ export const useAuthStore = defineStore("auth", () => {
             throw new Error(e.response.data.message);
         }
     };
+
     const signout = async () => {
         try {
-            // Fix the Authorization header format here
             await api.post("/auth/signout", null, {
                 headers: {
                     Authorization: `Bearer ${authData.value.token}`,
@@ -36,6 +36,20 @@ export const useAuthStore = defineStore("auth", () => {
             removeAuthData();
         } catch (error) {
             console.error('Sign out failed:', error);
+        }
+    };
+
+    const updateUser = async (data) => {
+        try {
+            const res = await api.put(`/users/${authData.value.id}`, data, {
+                headers: {
+                    Authorization: `Bearer ${authData.value.token}`,
+                }
+            });
+            authData.value = { ...authData.value, ...res.data };
+            saveAuthData();
+        } catch (e) {
+            console.error('Failed to update user data:', e.response ? e.response.data : e.message);
         }
     };
 
@@ -50,6 +64,19 @@ export const useAuthStore = defineStore("auth", () => {
         authCookie.value = null;
     };
 
+    const deleteAccount = async () => {
+        try {
+            await api.delete('/users', {
+                headers: {
+                    Authorization: `Bearer ${authData.value.token}`,
+                }
+            });
+            removeAuthData();
+        } catch (e) {
+            console.error("Ошибка при удалении аккаунта:", e.response ? e.response.data : e.message);
+        }
+    };
+
     const readAuthData = () => {
         if (authCookie.value) {
             authData.value = JSON.parse(atob(authCookie.value));
@@ -59,6 +86,8 @@ export const useAuthStore = defineStore("auth", () => {
     readAuthData();
 
     return {
+        deleteAccount,
+        updateUser,
         authData,
         signup,
         signin,
